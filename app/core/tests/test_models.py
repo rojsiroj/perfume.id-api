@@ -2,8 +2,35 @@
 Test for models
 """
 
+from decimal import Decimal
 from django.test import TestCase
 from django.contrib.auth import get_user_model
+
+from core import models
+from core.helper import create_user, get_time_in_utc
+
+
+def create_product_category():
+    user = create_user()
+    product_category = models.ProductCategory.objects.create(
+        created_at=get_time_in_utc(),
+        created_by=user,
+        name="Category1",
+    )
+
+    return product_category
+
+
+def create_product():
+    user = create_user()
+    product = models.Product.objects.create(
+        created_at=get_time_in_utc(),
+        created_by=user,
+        name="Sample product name",
+        description="Sample recipe description.",
+        price=15000,
+    )
+    return product
 
 
 class ModelTests(TestCase):
@@ -64,3 +91,30 @@ class ModelTests(TestCase):
 
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
+
+    def test_create_category(self):
+        # Test creating a product category is successful
+        product_category = create_product_category()
+        self.assertEqual(str(product_category), product_category.name)
+
+    def test_create_product(self):
+        # Test creating a product is successful
+        product_category = create_product_category()
+        product = create_product()
+        product.categories.add(product_category)
+
+        self.assertEqual(str(product), product.name)
+
+    def test_create_stock(self):
+        # Test creating a product category is successful
+        user = create_user()
+        product = create_product()
+        product_stock = models.ProductStock.objects.create(
+            created_at=get_time_in_utc(),
+            created_by=user,
+            product=product,
+            quantity=10,
+        )
+
+        self.assertEqual(str(product_stock), product.name)
+        self.assertEqual(product_stock.quantity, 10)
