@@ -1,4 +1,5 @@
 from django.utils import timezone
+from random import randint
 
 from django.contrib.auth import get_user_model
 
@@ -7,7 +8,7 @@ def create_user(**params):
     is_superuser = params.pop("is_superuser", False)
 
     defaults = {
-        "email": "user@example.com",
+        "email": f"user{randint(11,99)}@example.com",
         "password": "testpass123",
     }
     defaults.update(params)
