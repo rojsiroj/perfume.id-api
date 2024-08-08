@@ -11,7 +11,7 @@ from rest_framework import (
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from core.models import Product, ProductCategory
+from core.models import Product, ProductCategory, ProductStock
 from product import serializers
 
 
@@ -81,12 +81,12 @@ class ProductCategoryViewSet(
     mixins.DestroyModelMixin,
     viewsets.GenericViewSet,
 ):
-    # View for manage categories APIs
+    # View for manage product categories APIs
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # Retrieve categories for authenticated user
+        # Retrieve product categories for authenticated user
         assigned_only = bool(
             int(self.request.query_params.get("assigned_only", 0))
         )
@@ -101,3 +101,26 @@ class ProductCategoryViewSet(
 
     serializer_class = serializers.ProductCategorySerializer
     queryset = ProductCategory.objects.all()
+
+
+class ProductStockViewSet(
+    mixins.ListModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet,
+):
+    # View for manage product stock  APIs
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        # Retrieve product categories for authenticated user
+        queryset = self.queryset
+        return (
+            queryset.filter(created_by=self.request.user)
+            .order_by("-quantity")
+            .distinct()
+        )
+
+    serializer_class = serializers.ProductStockSerializer
+    queryset = ProductStock.objects.all()

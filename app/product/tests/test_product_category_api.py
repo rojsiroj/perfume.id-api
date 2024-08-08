@@ -1,5 +1,5 @@
 """
-Test for category APIs
+Test for product category APIs
 """
 
 from django.urls import reverse
@@ -21,7 +21,7 @@ def detail_url(category_id):
     return reverse("product:productcategory-detail", args=[category_id])
 
 
-class PublicProductCategorysAPITests(TestCase):
+class PublicProductCategoryAPITests(TestCase):
     # Test unauthenticated category API requests
 
     def setUp(self):
@@ -34,7 +34,7 @@ class PublicProductCategorysAPITests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
-class PrivateProductCategorysAPITests(TestCase):
+class PrivateProductCategoryAPITests(TestCase):
     # Test authenticated category API requests
 
     def setUp(self):
