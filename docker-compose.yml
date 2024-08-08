@@ -17,6 +17,7 @@ services:
       - DB_PASS=pass1234
     depends_on:
       - db
+      - redis
 
   db:
     image: postgres:13-alpine
@@ -26,6 +27,20 @@ services:
       - POSTGRES_DB=devdb
       - POSTGRES_USER=devuser
       - POSTGRES_PASSWORD=pass1234
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
 
 volumes:
   dev-db-data:
