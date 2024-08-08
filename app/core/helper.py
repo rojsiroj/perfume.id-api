@@ -4,11 +4,17 @@ from random import randint
 from django.contrib.auth import get_user_model
 
 
+DEFAULT_READ_ONLY_FIELDS = [
+    "id",
+    "created_by",
+]
+
+
 def create_user(**params):
     is_superuser = params.pop("is_superuser", False)
 
     defaults = {
-        "email": f"user{randint(11,99)}@example.com",
+        "email": f"user{randint(000,999)}@example.com",
         "password": "testpass123",
     }
     defaults.update(params)

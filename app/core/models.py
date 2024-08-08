@@ -49,15 +49,23 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Product(models.Model):
     # Product object
-    created_at = models.DateTimeField(auto_now_add=False)
+    created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
+        related_name="product_created_by",
     )
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=0)
     categories = models.ManyToManyField("ProductCategory")
+    stock = models.OneToOneField(
+        "ProductStock",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name="product_stock",
+    )
 
     def __str__(self):
         return self.name
@@ -65,10 +73,11 @@ class Product(models.Model):
 
 class ProductCategory(models.Model):
     # Product category object
-    created_at = models.DateTimeField(auto_now_add=False)
+    created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
+        related_name="product_category_created_by",
     )
     name = models.CharField(max_length=255)
 
@@ -78,10 +87,11 @@ class ProductCategory(models.Model):
 
 class ProductStock(models.Model):
     # Product stock object
-    created_at = models.DateTimeField(auto_now_add=False)
+    created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
+        related_name="product_stock_created_by",
     )
     product = models.ForeignKey(
         "Product",
