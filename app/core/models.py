@@ -10,6 +10,8 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 
+from django_prometheus.models import ExportModelOperationsMixin
+
 
 class UserManager(BaseUserManager):
     # Manager for users
@@ -47,7 +49,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "email"
 
 
-class Product(models.Model):
+class Product(ExportModelOperationsMixin("product"), models.Model):
     # Product object
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
@@ -71,7 +73,9 @@ class Product(models.Model):
         return self.name
 
 
-class ProductCategory(models.Model):
+class ProductCategory(
+    ExportModelOperationsMixin("product_category"), models.Model
+):
     # Product category object
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
@@ -85,7 +89,9 @@ class ProductCategory(models.Model):
         return self.name
 
 
-class ProductStock(models.Model):
+class ProductStock(
+    ExportModelOperationsMixin("product_category"), models.Model
+):
     # Product stock object
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(

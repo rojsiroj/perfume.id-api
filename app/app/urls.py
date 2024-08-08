@@ -20,4 +20,5 @@ urlpatterns = [
     ),
     path("api/user/", include("user.urls")),
     path("api/product/", include("product.urls")),
+    path("", include("django_prometheus.urls")),
 ]
