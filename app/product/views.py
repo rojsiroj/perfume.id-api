@@ -81,7 +81,7 @@ class ProductCategoryViewSet(
     mixins.DestroyModelMixin,
     viewsets.GenericViewSet,
 ):
-    # View for manage categorie APIs
+    # View for manage categories APIs
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
