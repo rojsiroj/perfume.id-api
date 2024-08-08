@@ -93,9 +93,12 @@ class ProductStock(models.Model):
         on_delete=models.CASCADE,
         related_name="product_stock_created_by",
     )
-    product = models.ForeignKey(
+    product = models.OneToOneField(
         "Product",
+        null=True,
+        blank=True,
         on_delete=models.CASCADE,
+        related_name="product_stock",
     )
     quantity = models.IntegerField()
 
