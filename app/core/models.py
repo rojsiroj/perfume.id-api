@@ -51,6 +51,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Product(ExportModelOperationsMixin("product"), models.Model):
     # Product object
+    id = models.AutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -72,11 +73,19 @@ class Product(ExportModelOperationsMixin("product"), models.Model):
     def __str__(self):
         return self.name
 
+    def stock_count(self):
+        try:
+            product_stock = ProductStock.objects.get(product=self.pk)
+            return product_stock.quantity
+        except ProductStock.DoesNotExist:
+            return 0
+
 
 class ProductCategory(
     ExportModelOperationsMixin("product_category"), models.Model
 ):
     # Product category object
+    id = models.AutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -93,6 +102,7 @@ class ProductStock(
     ExportModelOperationsMixin("product_category"), models.Model
 ):
     # Product stock object
+    id = models.AutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,

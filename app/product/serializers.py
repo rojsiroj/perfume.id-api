@@ -42,11 +42,11 @@ class ProductSerializer(serializers.ModelSerializer):
             "name",
             "price",
             "categories",
-            "stock",
+            "stock_count",
             "created_at",
             "created_by",
         ]
-        read_only_fields = DEFAULT_READ_ONLY_FIELDS + ["stock"]
+        read_only_fields = DEFAULT_READ_ONLY_FIELDS + ["stock_count"]
 
     def _get_or_create_categories(self, categories, product):
         # Handle getting or creating categories as needed
