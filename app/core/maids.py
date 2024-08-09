@@ -47,7 +47,7 @@ def db_seed(with_deletion=False, total_data=10):
                 created_by=user,
                 name=f"Product {i}",
                 price=randint(1000, 100000),
-                description=f"lorem ipsum dolor sit amet, consectetur adipiscing elit in  auctor elit et just eu just product  consectetur adipiscing elit in  auctor elit et just eu just product  consectetur adipiscing elit in  auctor elit et just eu just product  consectetur adipiscing elit in  auctor elit et just eu just product {i} description ",
+                description=f"Product {i} description",
             )
             product.save()
 
